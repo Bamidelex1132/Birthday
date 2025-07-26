@@ -2,122 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Happy Birthday Toheeb 🎉</title>
-
-  <!-- Bootstrap -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <!-- Google Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🎉 Happy Birthday Toheeb 🎉</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
   <style>
     body {
-      background: linear-gradient(to right, #ffecd2, #fcb69f);
-      font-family: 'Pacifico', cursive;
+      background: linear-gradient(to bottom right, #4f46e5, #3b82f6);
+      color: white;
+      font-family: 'Poppins', sans-serif;
       text-align: center;
-      color: #333;
+      padding: 30px 15px;
+      overflow-x: hidden;
     }
-
-    .hero {
-      margin-top: 50px;
+    h1 {
+      font-size: 2.2rem;
+      margin-bottom: 10px;
+      font-weight: 600;
     }
-
-    .hero img {
-      width: 180px;
-      height: 180px;
-      object-fit: cover;
-      border-radius: 50%;
-      border: 5px solid #fff;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    }
-
     .countdown {
-      font-size: 2rem;
-      margin-top: 20px;
+      font-size: 1.2rem;
+      margin-bottom: 20px;
     }
-
-    .guestbook {
-      margin-top: 40px;
+    img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 20px;
+      border: 4px solid white;
     }
-
-    .confetti {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      width: 100%;
-      height: 100%;
-      z-index: 999;
+    .card {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 20px;
+      border-radius: 14px;
+      backdrop-filter: blur(12px);
     }
-
-    .footer {
-      margin: 50px 0 20px;
-      font-size: 1rem;
-      color: #555;
+    input, textarea {
+      margin-bottom: 10px;
+      font-family: 'Poppins', sans-serif;
     }
-
     .message-box {
-      background: #fff;
-      border-radius: 10px;
-      padding: 10px 15px;
-      margin: 10px auto;
-      width: 90%;
-      max-width: 400px;
-      text-align: left;
-    }
-
-    .music-controls {
+      max-height: 300px;
+      overflow-y: auto;
       margin-top: 20px;
     }
-
-    #birthdayMusic {
-      display: none;
+    .message-box div {
+      background: rgba(255,255,255,0.15);
+      border-radius: 10px;
+      padding: 10px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+    }
+    footer {
+      margin-top: 40px;
+      font-size: 0.9rem;
+      opacity: 0.8;
     }
   </style>
 </head>
 <body>
 
-  <div class="container hero">
-    <h1>🎉 Happy Birthday Toheeb 🎉</h1>
-    <p class="lead">Coming soon: August 18</p>
-    <img src="https://via.placeholder.com/180" alt="Your Picture" />
-    <div class="countdown" id="countdown">Loading countdown...</div>
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;"></canvas>
 
-    <!-- 🎵 Music Controls -->
-    <div class="music-controls">
-      <button onclick="toggleMusic()" class="btn btn-outline-primary btn-sm" id="musicBtn">🔊 Mute Music</button>
-      <audio id="birthdayMusic" autoplay loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
-      </audio>
-    </div>
-  </div>
+  <h1>🎉 Happy Birthday Toheeb 🎉</h1>
+  <p>Coming soon: August 18</p>
 
-  <!-- 🎉 Confetti Canvas -->
-  <canvas class="confetti" id="confettiCanvas"></canvas>
+  <img src="https://via.placeholder.com/140" alt="Birthday Picture" />
 
-  <!-- 💬 Guestbook -->
-  <div class="container guestbook">
-    <h3>Leave a Birthday Wish 🎈</h3>
-    <form id="wishForm" class="row g-2 justify-content-center">
-      <div class="col-md-3">
-        <input type="text" class="form-control" placeholder="Your Name" id="name" required />
-      </div>
-      <div class="col-md-4">
-        <input type="text" class="form-control" placeholder="Your Message" id="message" required />
-      </div>
-      <div class="col-md-2">
-        <button type="submit" class="btn btn-success">Send</button>
-      </div>
+  <div class="countdown" id="countdown">Loading countdown...</div>
+
+  <div class="card mx-auto" style="max-width: 400px;">
+    <h5>Leave a Birthday Wish 🎈</h5>
+    <form id="wishForm">
+      <input type="text" id="name" class="form-control" placeholder="Your Name" required />
+      <textarea id="message" class="form-control" placeholder="Your Message" rows="3" required></textarea>
+      <button class="btn btn-light mt-2 w-100" type="submit">Send Wish</button>
     </form>
-
-    <div id="wishList" class="mt-4"></div>
   </div>
 
-  <div class="footer">
-    Made with ❤️ by Toheeb | August 18
-  </div>
 
+
+  <footer>
+    <p>Made with ❤️ by To</p>
+  </footer>
+
+  <!-- Countdown Script -->
   <script>
-    // Countdown
     const countdown = document.getElementById("countdown");
     const targetDate = new Date("2025-08-18T00:00:00").getTime();
 
@@ -137,8 +110,10 @@
 
       countdown.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
+  </script>
 
-    // Submit Wish
+  <!-- Wishes Script -->
+  <script>
     document.getElementById("wishForm").addEventListener("submit", async (e) => {
       e.preventDefault();
       const name = document.getElementById("name").value.trim();
@@ -158,7 +133,6 @@
       }
     });
 
-    // Load Messages
     async function loadMessages() {
       try {
         const res = await fetch("https://birthday-backend-v2.onrender.com/api/messages");
@@ -178,6 +152,16 @@
     }
 
     loadMessages();
+  </script>
+
+  <!-- Confetti Script -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <script>
+    confetti({
+      particleCount: 120,
+      spread: 100,
+      origin: { y: 0.6 }
+    });
   </script>
 </body>
 </html>
