@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Happy Birthday Toheeb 🎉</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      background: linear-gradient(to right, #ffecd2, #fcb69f);
+      font-family: 'Pacifico', cursive;
+      text-align: center;
+      color: #333;
+    }
+
+    .hero {
+      margin-top: 50px;
+    }
+
+    .hero img {
+      width: 180px;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 50%;
+      border: 5px solid #fff;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .countdown {
+      font-size: 2rem;
+      margin-top: 20px;
+    }
+
+    .guestbook {
+      margin-top: 40px;
+    }
+
+    .message-box {
+      background: #fff;
+      border-radius: 10px;
+      padding: 10px 15px;
+      margin: 10px auto;
+      width: 90%;
+      max-width: 400px;
+      text-align: left;
+    }
+
+    .footer {
+      margin-top: 50px;
+      font-size: 1rem;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container hero">
+    <h1>🎉 Happy Birthday Toheeb 🎉</h1>
+    <p class="lead">Coming soon: August 18</p>
+    <img src="https://via.placeholder.com/180" alt="Your Picture" />
+    <div class="countdown" id="countdown">Loading countdown...</div>
+  </div>
+
+  <!-- 💬 Guestbook -->
+  <div class="container guestbook">
+    <h3>Leave a Birthday Wish 🎈</h3>
+    <form id="wishForm" class="row g-2 justify-content-center">
+      <div class="col-md-3">
+        <input type="text" class="form-control" placeholder="Your Name" id="name" required />
+      </div>
+      <div class="col-md-4">
+        <input type="text" class="form-control" placeholder="Your Message" id="message" required />
+      </div>
+      <div class="col-md-2">
+        <button type="submit" class="btn btn-success">Send</button>
+      </div>
+    </form>
+
+    <div id="wishList" class="mt-4"></div>
+  </div>
+
+  <div class="footer">
+    Made with ❤️ by Toheeb | August 18
+  </div>
+
+  <!-- Countdown Script -->
+  <script>
+    const countdown = document.getElementById("countdown");
+    const birthday = new Date("August 18, 2025 00:00:00").getTime();
+
+    setInterval(() => {
+      const now = new Date().getTime();
+      const distance = birthday - now;
+
+      if (distance < 0) {
+        countdown.innerHTML = "🎈 It's your birthday! 🎉";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      countdown.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+  </script>
+
+  <!-- Guestbook Script -->
+  <script>
+    const form = document.getElementById("wishForm");
+    const wishList = document.getElementById("wishList");
+
+    // Load messages on page load
+    window.onload = () => {
+      fetch('http://localhost:5000/api/messages')
+        .then(res => res.json())
+        .then(data => {
+          wishList.innerHTML = '';
+          data.forEach(msg => {
+            const div = document.createElement("div");
+            div.className = "message-box";
+            div.innerHTML = `<strong>${msg.name}</strong><br>${msg.text}`;
+            wishList.appendChild(div);
+          });
+        });
+    };
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const name = document.getElementById("name").value;
+      const message = document.getElementById("message").value;
+
+      fetch('http://localhost:5000/api/messages', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, text: message })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const div = document.createElement("div");
+        div.className = "message-box";
+        div.innerHTML = `<strong>${data.name}</strong><br>${data.text}`;
+        wishList.prepend(div);
+        form.reset();
+      });
+    });
+  </script>
+
+</body>
+</html>
