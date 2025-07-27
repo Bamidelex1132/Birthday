@@ -70,9 +70,13 @@
   <h1>🎉 Happy Birthday Toheeb 🎉</h1>
   <p> August 18</p>
 
-  <img src="https://via.placeholder.com/140" alt="Birthday Picture" />
+  <img src="https://via.placeholder.com/140" alt="Birthday Picture" onerror="this.src='https://via.placeholder.com/150'; this.alt='image coming soon!'"/>
 
   <div class="countdown" id="countdown">Loading countdown...</div>
+  <div class="fun-fact p-3 text-center text-white bg-dark rounded">
+  <h4>🎈 Fun Birthday Fact</h4>
+  <p id="birthdayFact"></p>
+</div>
 
   <div class="card mx-auto" style="max-width: 400px;">
     <h5>Leave a Birthday Wish 🎈</h5>
@@ -111,7 +115,23 @@
       countdown.innerText = `${days}d ${hours}h ${minutes}m ${seconds}s`;
     }, 1000);
   </script>
+<script>
+  const facts = [
+    "You share your birthday with millions of people worldwide!",
+    "The most common birthday in the world is September 9th.",
+    "In some countries, it's traditional to pull earlobes for every year of age!",
+    "Your birth month can influence your personality — says astrology!",
+    "Around 385,000 babies are born each day around the world.",
+    "The least common birthday in the U.S. is December 25th.",
+    "In ancient Rome, only men had birthdays celebrated publicly.",
+    "Birthday cake dates back to ancient Greece!",
+    "The happy birthday song is the most recognized song in English.",
+    "Walt Disney was born on December 5th — maybe you’re next!"
+  ];
 
+  const randomIndex = Math.floor(Math.random() * facts.length);
+  document.getElementById("birthdayFact").textContent = facts[randomIndex];
+</script>
   <!-- Wishes Script -->
   <script>
     document.getElementById("wishForm").addEventListener("submit", async (e) => {
